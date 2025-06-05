@@ -1,0 +1,42 @@
+openapi: 3.0.1
+info:
+  title: BibliotechGPT API
+  description: |
+    API mínima para o Plugin “BibliotechGPT” acessar arquivos no Google Drive do usuário.
+  version: "1.0.0"
+servers:
+  - url: https://api.example.com      # <- Altere para o domínio real onde seu backend rodará
+paths:
+  /list_files:
+    get:
+      summary: Lista arquivos de uma pasta no Google Drive
+      parameters:
+        - in: query
+          name: folder_id
+          schema:
+            type: string
+          required: false
+          description: ID da pasta a ser listada (se não informado, lista a raiz)
+      responses:
+        "200":
+          description: Sucesso – Retorna lista de arquivos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        mimeType:
+                          type: string
+        "401":
+          description: Não autorizado – token inválido ou ausente
+        "500":
+          description: Erro interno do servidor
