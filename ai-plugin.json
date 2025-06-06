@@ -11,7 +11,7 @@
     "authorization_url": "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=9446989960-0gmbr22evkjfs2j92qk9527upf1adjlh.apps.googleusercontent.com&redirect_uri=https://chat.openai.com/a/oauth/callback&scope=https://www.googleapis.com/auth/drive&access_type=offline",
     "token_url": "https://oauth2.googleapis.com/token",
     "refresh_url": "https://oauth2.googleapis.com/token",
-    "authorization_type": "2-legged"
+    "authorization_type": "3-legged"
   },
   "api": {
     "type": "openapi",
