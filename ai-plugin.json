@@ -6,19 +6,19 @@
   "description_for_model": "Plugin para acessar arquivos no Google Drive do usuário.",
   "auth": {
     "type": "oauth",
-    "client_id": "<9446989960-0gmbr22evkjfs2j92qk9527upf1adjlh.apps.googleusercontent.com>",
-    "client_secret": "<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>",
-    "authorization_url": "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=<CLIENT_ID>&redirect_uri=https://chat.openai.com/a/oauth/callback&scope=https://www.googleapis.com/auth/drive.file&access_type=offline",
+    "client_id": "9446989960-0gmbr22evkjfs2j92qk9527upf1adjlh.apps.googleusercontent.com",
+    "client_secret": "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",
+    "authorization_url": "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=9446989960-0gmbr22evkjfs2j92qk9527upf1adjlh.apps.googleusercontent.com&redirect_uri=https://chat.openai.com/a/oauth/callback&scope=https://www.googleapis.com/auth/drive.file&access_type=offline",
     "token_url": "https://oauth2.googleapis.com/token",
     "refresh_url": "https://oauth2.googleapis.com/token",
     "authorization_type": "2-legged"
   },
   "api": {
     "type": "openapi",
-    "url": "https://<SEU_SERVIDOR>/openapi.yaml",
+    "url": "https://raw.githubusercontent.com/orlandolopeses/bibliotech/main/openapi.yaml",
     "is_user_authenticated": true
   },
-  "logo_url": "https://<SEU_SERVIDOR>/logo.png",
+  "logo_url": "https://raw.githubusercontent.com/orlandolopeses/bibliotech/main/logo.png",
   "contact_email": "orlando@seudominio.com",
-  "legal_info_url": "https://<SEU_SERVIDOR>/privacidade"
+  "legal_info_url": "https://seudominio.com/privacidade.html"
 }
