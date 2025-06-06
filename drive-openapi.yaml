@@ -1,0 +1,190 @@
+openapi: 3.1.0
+info:
+  title: Google Drive API
+  description: Ações para listar, buscar e depurar arquivos do Google Drive com autenticação OAuth2.
+  version: 1.4.1
+
+servers:
+  - url: https://www.googleapis.com/drive/v3
+
+paths:
+  /files:
+    get:
+      operationId: listDriveFiles
+      summary: Lista arquivos no Google Drive
+      parameters:
+        - name: pageSize
+          in: query
+          description: Número máximo de arquivos a serem retornados.
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: fields
+          in: query
+          description: Campos a serem retornados na resposta.
+          required: false
+          schema:
+            type: string
+            default: "files(id,name,mimeType)"
+      responses:
+        '200':
+          description: Lista de arquivos retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/File'
+                  nextPageToken:
+                    type: string
+                    description: Token para próxima página de resultados.
+                required:
+                  - files
+              examples:
+                exemplo:
+                  value:
+                    files:
+                      - id: "1A2B3C"
+                        name: "Documento.txt"
+                        mimeType: "text/plain"
+                    nextPageToken: "abcdef"
+
+  /files/search:
+    get:
+      operationId: searchPdfFiles
+      summary: Busca arquivos PDF no Google Drive
+      parameters:
+        - name: q
+          in: query
+          description: 'Filtro de busca para arquivos. Exemplo: "mimeType=\"application/pdf\""'
+          required: true
+          schema:
+            type: string
+            example: 'mimeType="application/pdf"'
+        - name: fields
+          in: query
+          description: Campos a serem retornados na resposta.
+          required: false
+          schema:
+            type: string
+            default: "files(id,name,mimeType)"
+      responses:
+        '200':
+          description: Lista de arquivos PDF encontrados
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/File'
+                  nextPageToken:
+                    type: string
+                    description: Token para próxima página de resultados.
+                required:
+                  - files
+              examples:
+                exemplo:
+                  value:
+                    files:
+                      - id: "4D5E6F"
+                        name: "Relatorio.pdf"
+                        mimeType: "application/pdf"
+                    nextPageToken: "ghijkl"
+
+  /files/debug:
+    get:
+      operationId: debugDriveList
+      summary: Debug estruturado com campos livres
+      parameters:
+        - name: q
+          in: query
+          description: Filtro de busca para depuração.
+          required: false
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Campos a serem retornados na resposta de depuração.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resposta de depuração com estrutura genérica
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  debug:
+                    type: string
+                additionalProperties: true
+
+  /files/raw:
+    get:
+      operationId: rawDriveResponse
+      summary: Resposta bruta da API do Google Drive (sem validação)
+      parameters:
+        - name: q
+          in: query
+          description: Filtro de busca para resposta crua.
+          required: false
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Campos a serem retornados na resposta crua.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Resposta crua da API sem validação de campos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  raw:
+                    type: string
+                additionalProperties: true
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://accounts.google.com/o/oauth2/v2/auth
+          tokenUrl: https://oauth2.googleapis.com/token
+          scopes:
+            https://www.googleapis.com/auth/drive.readonly: Permissão para listar arquivos no Drive
+
+  schemas:
+    File:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID do arquivo.
+        name:
+          type: string
+          description: Nome do arquivo.
+        mimeType:
+          type: string
+          description: Tipo MIME do arquivo.
+      required:
+        - id
+        - name
+        - mimeType
+
+security:
+  - OAuth2:
+      - https://www.googleapis.com/auth/drive.readonly
