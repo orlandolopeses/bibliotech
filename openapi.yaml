@@ -5,7 +5,7 @@ info:
     API mínima para o Plugin “BibliotechGPT” acessar arquivos no Google Drive do usuário.
   version: "1.0.0"
 servers:
-  - url: https://bibliotech-api.onrender.com      # <- Altere para o domínio real onde seu backend rodará
+  - url: https://bibliotech-api.onrender.com     # <- Altere para o domínio real onde seu backend rodará
 paths:
   /list_files:
     get:
