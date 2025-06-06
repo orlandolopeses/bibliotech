@@ -15,7 +15,7 @@
   },
   "api": {
     "type": "openapi",
-    "url": "https://raw.githubusercontent.com/orlandolopeses/bibliotech/main/openapi.yaml",
+    "url": "https://raw.githubusercontent.com/orlandolopeses/bibliotech/main/drive-openapi.yaml",
     "is_user_authenticated": true
   },
   "logo_url": "https://raw.githubusercontent.com/orlandolopeses/bibliotech/main/logo.png",
