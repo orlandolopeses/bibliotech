@@ -1,25 +1,34 @@
-openapi: 3.0.1
+openapi: 3.1.0
 info:
-  title: BibliotechGPT API
-  description: |
-    API mínima para o Plugin “BibliotechGPT” acessar arquivos no Google Drive do usuário.
-  version: "1.0.0"
+  title: Google Drive API
+  version: 1.4.1
 servers:
-  - url: https://bibliotech-api.onrender.com     # <- Altere para o domínio real onde seu backend rodará
+  - url: https://www.googleapis.com/drive/v3
+
 paths:
-  /list_files:
+  /files:
     get:
-      summary: Lista arquivos de uma pasta no Google Drive
+      operationId: listDriveFiles
+      summary: Lista arquivos no Drive
       parameters:
-        - in: query
-          name: folder_id
+        - name: q
+          in: query
+          description: Filtro de busca (ex.: mimeType="application/pdf" AND name contains 'Deleuze')
+          required: false
           schema:
             type: string
-          required: false
-          description: ID da pasta a ser listada (se não informado, lista a raiz)
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+        - name: fields
+          in: query
+          schema:
+            type: string
+            default: "files(id,name,mimeType),nextPageToken"
       responses:
-        "200":
-          description: Sucesso – Retorna lista de arquivos
+        '200':
+          description: OK
           content:
             application/json:
               schema:
@@ -28,15 +37,33 @@ paths:
                   files:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        id:
-                          type: string
-                        name:
-                          type: string
-                        mimeType:
-                          type: string
-        "401":
-          description: Não autorizado – token inválido ou ausente
-        "500":
-          description: Erro interno do servidor
+                      $ref: '#/components/schemas/File'
+                  nextPageToken:
+                    type: string
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://accounts.google.com/o/oauth2/v2/auth
+          tokenUrl: https://oauth2.googleapis.com/token
+          scopes:
+            https://www.googleapis.com/auth/drive: Full access to Drive
+
+  schemas:
+    File:
+      type: object
+      required: [id,name,mimeType]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        mimeType:
+          type: string
+
+security:
+  - OAuth2:
+      - https://www.googleapis.com/auth/drive
